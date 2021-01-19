@@ -17,6 +17,7 @@
     },
     "dependencies": {
         "chess": "^0.4.9",
-        "chessboardjs": "^0.0.1"
+        "chessboardjs": "^0.0.1",
+        "jquery": "^3.5.1"
     }
 }
