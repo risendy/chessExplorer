@@ -1,10 +1,21 @@
-// any CSS you import will output into a single css file (app.css in this case)
-
 import '../styles/app.css';
-
 const $ = require('jquery');
 
 import ChessBoard from 'chessboardjs';
+import * as Chess from '../chess';
+import Vue from 'vue';
+import App from './components/App.vue'
 
-var board = ChessBoard('board', 'start')
+import GameHistory from './components/GameHistory.vue'
+import GameTable from './components/GameTable.vue'
+import store from './store/store.js'
 
+const chessObj = new Chess();
+var originalPng;
+var modifiedPng;
+
+new Vue({
+    el: '#app',
+    store,
+    render: h => h(App),
+})

@@ -75,6 +75,11 @@ class Game
     private $eventDate;
 
     /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $pgn;
+
+    /**
      * @ORM\OneToMany(targetEntity=Move::class, mappedBy="gameFk")
      */
     private $moves;
@@ -247,6 +252,18 @@ class Game
                 $move->setGameFk(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getPgn(): ?string
+    {
+        return $this->pgn;
+    }
+
+    public function setPgn(?string $pgn): self
+    {
+        $this->pgn = $pgn;
 
         return $this;
     }
