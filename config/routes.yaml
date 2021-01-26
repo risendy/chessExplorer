@@ -1,3 +1,15 @@
 index:
     path: /
     controller: App\Controller\HomepageController::index
+
+ajax_get_game_info:
+    path: /game
+    controller: App\Controller\ApiController::getGameInfo
+    options:
+        expose: true
+
+ajax_get_games:
+    path: /games
+    controller: App\Controller\ApiController::getGames
+    options:
+        expose: true

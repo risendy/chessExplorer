@@ -3,7 +3,7 @@
 {% block title %}Hello HomepageController!{% endblock %}
 
 {% block body %}
-    <div id="board" style="width: 400px"></div>
+    <div id="app"></div>
 {% endblock %}
 
 {% block stylesheets %}
@@ -14,5 +14,6 @@
 {% block javascripts %}
     {{ parent() }}
 
+    {{ encore_entry_script_tags('app') }}
     {{ encore_entry_script_tags('game') }}
 {% endblock %}
