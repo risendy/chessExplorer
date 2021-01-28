@@ -22,6 +22,26 @@ class GameService
         return $this->gameRepository->findOneBy(["id" => $id]);
     }
 
+    public function getGamesInfoRange($page, $pageSize = 10)
+    {
+        $games = [];
+        $items = $this->gameRepository->getPaginatedGames($page, $pageSize);
+
+        foreach ($items as $pageItem) {
+            $games[] = [
+                "pgn" => $pageItem->getPgn(),
+                "white" => $pageItem->getWhite(),
+                "black" => $pageItem->getBlack(),
+                "whiteElo" => $pageItem->getWhiteElo(),
+                "blackElo" => $pageItem->getBlackElo(),
+                "result" => $pageItem->getResult(),
+                "date" => $pageItem->getDate()->format('Y-m-d'),
+            ];
+        }
+
+        return ['items' => $games, 'total' => count($items)];
+    }
+
     public function getLastGames()
     {
         return $this->gameRepository->findBy([],[], 10);

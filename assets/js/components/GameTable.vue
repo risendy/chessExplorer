@@ -7,7 +7,7 @@
 
       </h5>
 
-      <table class="table">
+      <table class="table table-striped" style="table-layout: fixed;">
         <thead>
         <tr>
           <th>date</th>
@@ -19,7 +19,7 @@
         </tr>
         </thead>
         <tbody>
-          <template v-for="game in games">
+          <template v-for="game in gamesDb.items">
             <tr v-on:click="loadGame" :data-pgn="game.pgn">
               <td>{{game.date}}</td>
               <td>{{game.white}}</td>
@@ -29,6 +29,14 @@
               <td>{{game.result}}</td>
             </tr>
           </template>
+
+            <ul class="pagination">
+              <li @click="firstPage" class="page-item" v-bind:class="{ active: activeFirst}"><a class="page-link" href="#">1</a></li>
+              <li v-if="gamesDb.page > 1" @click="previousPage" class="page-item"><a class="page-link" href="#">Previous</a></li>
+              <li v-if="gamesDb.page < gamesDb.totalPages" @click="nextPage" class="page-item"><a class="page-link" href="#">Next</a></li>
+              <li @click="lastPage" class="page-item" v-bind:class="{ active: activeLast}"><a class="page-link" href="#">{{ gamesDb.totalPages }}</a></li>
+            </ul>
+
         </tbody>
       </table>
 
@@ -40,13 +48,16 @@
 <script>
 import axios from "axios";
 import Store from '../store/store.js'
+import {createInstance} from 'vuex-pagination'
 
 export default {
   name: "GameTable",
   data: function () {
     return {
       games: [],
-      errors: []
+      errors: [],
+      activeFirst: true,
+      activeLast: false
     }
   },
   methods: {
@@ -58,7 +69,43 @@ export default {
       let fen = this.$store.getters.getFen;
 
       this.$store.commit('changeBoardPosition', fen);
-    }
+    },
+    firstPage: function (event) {
+      this.gamesDb.page = 1;
+      this.activeFirst = true
+      this.activeLast = false
+    },
+    nextPage: function (event) {
+      this.activeFirst = false
+      this.activeLast = false
+
+      this.gamesDb.page++;
+
+      if (this.gamesDb.page === this.gamesDb.totalPages) {
+        this.activeLast= true
+      }
+    },
+    previousPage: function (event) {
+      this.activeFirst = false
+      this.activeLast = false
+
+      this.gamesDb.page--;
+
+      if (this.gamesDb.page === 1) {
+        this.activeFirst = true
+      }
+    },
+    lastPage: function (event) {
+      this.activeFirst = false
+      this.activeLast = true
+      this.gamesDb.page = this.gamesDb.totalPages
+    },
+  },
+  computed: {
+    gamesDb: createInstance('games', {
+      page: 1,
+      pageSize: 10
+    })
   },
   mounted () {
     var url = Routing.generate('ajax_get_games');

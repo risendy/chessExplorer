@@ -1,7 +1,7 @@
 <template>
   <div class="card card_info">
 
-    <div class="card-body">
+    <div class="card-body" style="padding-bottom: 0px">
       <h5> Game history:
 
       </h5>
