@@ -13,3 +13,9 @@ ajax_get_games:
     controller: App\Controller\ApiController::getGames
     options:
         expose: true
+
+ajax_get_paginated_games:
+    path: /get_paginated_games
+    controller: App\Controller\ApiController::getGamesPaginated
+    options:
+        expose: true

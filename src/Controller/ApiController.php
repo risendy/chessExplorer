@@ -43,4 +43,19 @@ class ApiController extends AbstractController
 
         return new JsonResponse(["games" => $gamesResponse]);
     }
+
+    public function getGamesPaginated(Request $request): JsonResponse
+    {
+        $page = $request->query->get('page');
+        $limit = $request->query->get('limit');
+
+        $result = $this->gameService->getGamesInfoRange($page, $limit);
+
+        $games = [];
+
+        $gamesResponse['items'] = $games;
+        $gamesResponse['total'] = 1000;
+
+        return new JsonResponse([$result]);
+    }
 }

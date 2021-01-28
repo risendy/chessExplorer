@@ -4,8 +4,28 @@ import GameHistory from "../components/GameHistory";
 import GameTable from "../components/GameTable";
 import ChessBoard from "chessboardjs";
 import * as Chess from '../../chess';
+import axios from "axios";
 
 Vue.use(Vuex)
+
+export async function fetchUsers (opts) {
+    const games = await window.fetch(`/get_paginated_games?page=${opts.page}&limit=${opts.pageSize}`)
+        .then(response => {
+            return response.json();
+        })
+        .catch((error) => {
+            this.dispatch('SHOW_GLOBAL_ERROR_MESSAGE', error.response.data.message);
+            return {
+                total: 0,
+                data: [],
+            };
+        });
+
+    return {
+        total: games[0].total,
+        data: games[0].items
+    }
+}
 
 export default new Vuex.Store({
     state: {
