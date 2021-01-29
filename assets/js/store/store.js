@@ -40,6 +40,9 @@ export default new Vuex.Store({
         },
         getFen (state, pgn) {
             return state.fen;
+        },
+        getGame (state) {
+            return state.game;
         }
     },
     mutations: {
