@@ -20,7 +20,7 @@
         </thead>
         <tbody>
           <template v-for="game in gamesDb.items">
-            <tr v-on:click="loadGame" :data-pgn="game.pgn">
+            <tr v-on:click="loadGame" :data-pgn="game.pgn" :data-id="game.id" :v-bind:class="{ activeRow: isActive }">
               <td>{{game.date}}</td>
               <td>{{game.white}}</td>
               <td>{{game.whiteElo}}</td>
@@ -49,6 +49,7 @@
 import axios from "axios";
 import Store from '../store/store.js'
 import {createInstance} from 'vuex-pagination'
+import * as Func from '../modules/functions.js';
 
 export default {
   name: "GameTable",
@@ -57,11 +58,17 @@ export default {
       games: [],
       errors: [],
       activeFirst: true,
-      activeLast: false
+      activeLast: false,
+      isActive: false
     }
   },
   methods: {
     loadGame: function (event) {
+      this.isActive = true;
+
+      let id = event.currentTarget.getAttribute('data-id');
+      Func.makeSelectedGameBold(id);
+
       let pgn = event.currentTarget.getAttribute('data-pgn');
       this.$store.commit('changePgn', pgn);
       this.$store.commit('calculateFen', pgn);
@@ -107,7 +114,10 @@ export default {
     gamesDb: createInstance('games', {
       page: 1,
       pageSize: 10
-    })
+    }),
+    activeRow: function (event) {
+      console.log(event);
+    },
   },
   mounted () {
     var url = Routing.generate('ajax_get_games');

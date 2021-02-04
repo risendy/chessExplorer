@@ -58,11 +58,6 @@ class ApiController extends AbstractController
 
         $result = $this->gameService->getGamesInfoRange($page, $limit);
 
-        $games = [];
-
-        $gamesResponse['items'] = $games;
-        $gamesResponse['total'] = 1000;
-
         return new JsonResponse([$result]);
     }
 

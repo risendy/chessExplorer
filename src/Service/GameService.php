@@ -40,6 +40,7 @@ class GameService
 
         foreach ($items as $pageItem) {
             $games[] = [
+                "id" => $pageItem->getId(),
                 "pgn" => $pageItem->getPgn(),
                 "white" => $pageItem->getWhite(),
                 "black" => $pageItem->getBlack(),
