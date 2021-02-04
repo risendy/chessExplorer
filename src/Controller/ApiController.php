@@ -2,7 +2,9 @@
 
 namespace App\Controller;
 
+use App\Entity\Move;
 use App\Service\GameService;
+use App\Service\MoveService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -10,10 +12,15 @@ use Symfony\Component\HttpFoundation\Request;
 class ApiController extends AbstractController
 {
     private $gameService;
+    /**
+     * @var MoveService
+     */
+    private $moveService;
 
-    public function __construct(GameService $gameService)
+    public function __construct(GameService $gameService, MoveService $moveService)
     {
         $this->gameService = $gameService;
+        $this->moveService = $moveService;
     }
 
     public function getGameInfo(Request $request): JsonResponse
@@ -57,5 +64,17 @@ class ApiController extends AbstractController
         $gamesResponse['total'] = 1000;
 
         return new JsonResponse([$result]);
+    }
+
+    public function getPopularMoves(Request $request): JsonResponse
+    {
+        $content = $request->getContent();
+        $contentDecoded = json_decode($content, true);
+
+        $fen = $contentDecoded['fenString'];
+
+        $result = $this->moveService->getPopularMovesInThePosition($fen);
+
+        return new JsonResponse($result);
     }
 }

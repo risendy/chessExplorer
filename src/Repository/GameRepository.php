@@ -19,6 +19,19 @@ class GameRepository extends ServiceEntityRepository
         parent::__construct($registry, Game::class);
     }
 
+    public function persist($game) {
+        $em = $this->getEntityManager();
+
+        $em->persist($game);
+    }
+
+    public function flush() {
+        $em = $this->getEntityManager();
+
+        $em->flush();
+        $em->clear();
+    }
+
     public function getPaginatedGames($page, $pageSize) {
         $query = $this->createQueryBuilder('g')
             ->orderBy('g.date', 'DESC')

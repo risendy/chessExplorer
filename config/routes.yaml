@@ -19,3 +19,9 @@ ajax_get_paginated_games:
     controller: App\Controller\ApiController::getGamesPaginated
     options:
         expose: true
+
+ajax_get_popular_moves:
+    path: /get_popular_moves
+    controller: App\Controller\ApiController::getPopularMoves
+    options:
+        expose: true

@@ -1,20 +1,20 @@
 <template>
-  <div class="card card_info">
+  <div class="card card_info left-upper-box">
 
-    <div class="card-body" style="padding-bottom: 0px">
-      <h5> Game history:
-
-      </h5>
-    </div>
-
-    <div class="card-body card_body_graph">
-      <span id="pgnPlaceholder"></span>
+    <div class="row">
+    <div class="card-body" style="padding-bottom: 15px">
+      <h5> Game history:</h5>
       <div>
+        <span v-if="buttonsVisible">
         <button class="btn btn-success" id="prevBtn" v-on:click="prevMove">prev</button>
         <button class="btn btn-success" id="nextBtn" v-on:click="nextMove">next</button>
+        </span>
+        <button class="btn btn-success" id="resetPosition" v-on:click="resetPosition">reset</button>
       </div>
     </div>
+    </div>
 
+    <div class="row">
     <table class="table table-striped" style="table-layout: fixed;">
       <thead>
       <tr>
@@ -34,6 +34,7 @@
 
       </tbody>
     </table>
+    </div>
 
   </div>
 </template>
@@ -53,6 +54,9 @@ export default {
   computed: {
     currentGameState: function () {
       return this.$store.getters.getPgn
+    },
+    buttonsVisible: function () {
+      return this.$store.getters.getMovePositionButtonsVisible;
     },
     pgnArray: function () {
       let game = new Chess();
@@ -75,6 +79,11 @@ export default {
               move.turn = turn;
 
               move.white = history[i].san;
+
+              if (i == history.length - 1) {
+                resultArray.push(move);
+                turn++;
+              }
             }
             //black
             else
@@ -96,6 +105,10 @@ export default {
     },
     nextMove: function (event) {
         this.$store.dispatch('nextMove')
+    },
+    resetPosition: function (event) {
+      this.$store.dispatch('resetPosition')
+      this.$store.dispatch('setMoveButtons', false);
     },
   },
 };

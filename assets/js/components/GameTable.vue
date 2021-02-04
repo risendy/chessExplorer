@@ -69,6 +69,8 @@ export default {
       let fen = this.$store.getters.getFen;
 
       this.$store.commit('changeBoardPosition', fen);
+      this.$store.dispatch('clearPopularMoves');
+      this.$store.dispatch('setMoveButtons', true);
     },
     firstPage: function (event) {
       this.gamesDb.page = 1;

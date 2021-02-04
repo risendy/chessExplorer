@@ -9,3 +9,26 @@ body {
 #app {
     padding-top: 75px;
 }
+
+.left-upper-box {
+    text-align: center;
+    height:50%;
+    position: absolute;
+    top: 0px;
+    bottom: 0;
+    left: 0;
+    overflow-y: scroll;
+}
+
+.left-lower-box {
+    text-align: center;
+    height:50%;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    overflow-y: scroll;
+}
+
+.row {
+    margin-right: 0px;
+}

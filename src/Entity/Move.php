@@ -37,6 +37,16 @@ class Move
      */
     private $gameFk;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $fen;
+
+    /**
+     * @ORM\OneToOne(targetEntity=Move::class, cascade={"persist", "remove"})
+     */
+    private $nextMove;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -86,6 +96,30 @@ class Move
     public function setGameFk(?Game $gameFk): self
     {
         $this->gameFk = $gameFk;
+
+        return $this;
+    }
+
+    public function getFen(): ?string
+    {
+        return $this->fen;
+    }
+
+    public function setFen(?string $fen): self
+    {
+        $this->fen = $fen;
+
+        return $this;
+    }
+
+    public function getNextMove(): ?self
+    {
+        return $this->nextMove;
+    }
+
+    public function setNextMove(?self $nextMove): self
+    {
+        $this->nextMove = $nextMove;
 
         return $this;
     }

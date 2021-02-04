@@ -2,6 +2,7 @@
 
 namespace App\Service;
 
+use App\Entity\Game;
 use App\Repository\GameRepository;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
@@ -20,6 +21,16 @@ class GameService
     public function getGameInfo($id)
     {
         return $this->gameRepository->findOneBy(["id" => $id]);
+    }
+
+    public function saveGame($game)
+    {
+        $this->gameRepository->persist($game);
+    }
+
+    public function flushGames()
+    {
+        $this->gameRepository->flush();
     }
 
     public function getGamesInfoRange($page, $pageSize = 10)
