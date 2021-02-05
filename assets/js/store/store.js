@@ -9,7 +9,7 @@ import * as Ajax from "../modules/ajaxCalls";
 
 Vue.use(Vuex)
 
-export async function fetchUsers (opts) {
+export async function fetchGames (opts) {
     const games = await window.fetch(`/get_paginated_games?page=${opts.page}&limit=${opts.pageSize}`)
         .then(response => {
             return response.json();
@@ -36,7 +36,9 @@ export default new Vuex.Store({
         possibleMoves: [],
         fen: '',
         test: 1,
-        movePositionButtonsVisible: false
+        movePositionButtonsVisible: false,
+        activeMove: null,
+        activeGameRow: null
     },
     getters: {
         getPgn (state) {
@@ -56,6 +58,12 @@ export default new Vuex.Store({
         },
         getMovePositionButtonsVisible (state) {
             return state.movePositionButtonsVisible;
+        },
+        activeMove (state) {
+            return state.activeMove;
+        },
+        activeGameRow (state) {
+            return state.activeGameRow;
         }
     },
     mutations: {
@@ -77,8 +85,7 @@ export default new Vuex.Store({
         },
         setInitGame (state) {
             state.game = new Chess();
-                state.game.load('rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1');
-
+            state.game.load('rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1');
         },
         changeBoardPosition(state, fen) {
             state.board.position(fen);
@@ -93,6 +100,18 @@ export default new Vuex.Store({
         },
         saveFen(state, fen) {
             state.fen = fen;
+        },
+        incrementActiveMove(state) {
+            state.activeMove = state.activeMove + 1;
+        },
+        decrementActiveMove(state) {
+            state.activeMove = state.activeMove - 1;
+        },
+        setActiveMove(state, move) {
+            state.activeMove = move;
+        },
+        setActiveGameRow(state, row) {
+            state.activeGameRow = row;
         },
     },
     actions: {
@@ -122,6 +141,18 @@ export default new Vuex.Store({
         },
         setMoveButtons(state, flag) {
             state.commit('setMoveButtons', flag);
+        },
+        incrementActiveMove(state) {
+            state.commit('incrementActiveMove');
+        },
+        decrementActiveMove(state) {
+            state.commit('decrementActiveMove');
+        },
+        setActiveMove(state, move) {
+            state.commit('setActiveMove', move);
+        },
+        setActiveGameRow(state, row) {
+            state.commit('setActiveGameRow', row);
         }
     }
 })

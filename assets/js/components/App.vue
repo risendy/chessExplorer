@@ -10,6 +10,7 @@
       </div>
       <div class="col-sm-5 col-md-5 col-xs-12">
         <div id="board"></div>
+        <GameButtons/>
       </div>
       <div class="col-sm-4 col-md-4 col-lg-4">
         <GameTable/>
@@ -25,6 +26,7 @@
 import GameHistory from './GameHistory.vue'
 import GameTable from './GameTable.vue'
 import PossibleMoves from "./PossibleMoves";
+import GameButtons from "./GameButtons";
 import * as Func from '../modules/functions.js';
 import * as Ajax from '../modules/ajaxCalls.js';
 
@@ -41,7 +43,8 @@ export default {
   components: {
     PossibleMoves,
     GameHistory,
-    GameTable
+    GameTable,
+    GameButtons
   },
   methods: {},
   mounted: function () {

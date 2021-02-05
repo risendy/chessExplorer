@@ -42,8 +42,3 @@ export function onSnapEnd () {
 
     store.state.board.position(game.fen());
 }
-
-export function makeSelectedGameBold(id) {
-    $("tr").removeClass('activeGame');
-    $("tr[data-id='" + id +"']").addClass('activeGame');
-}

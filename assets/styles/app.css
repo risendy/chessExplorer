@@ -36,3 +36,11 @@ body {
 .activeGame {
     font-weight: bold;
 }
+
+.activeMove {
+    font-weight: bold;
+}
+
+.gameNavigationButtons {
+    padding-top: 15px;
+}
