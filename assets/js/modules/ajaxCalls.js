@@ -1,6 +1,11 @@
 import axios from 'axios';
 import store from "../store/store";
 
+/**
+ * Fetch most popular moves in the position
+ * @param fen default start position
+ * @returns {Promise<unknown>}
+ */
 export function getMostPopularMovesInThePosition (fen = 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1') {
     return axios.post(Routing.generate('ajax_get_popular_moves'), {
         fenString:fen

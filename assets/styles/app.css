@@ -44,3 +44,7 @@ body {
 .gameNavigationButtons {
     padding-top: 15px;
 }
+
+.game-moves td {
+    cursor:pointer;
+}

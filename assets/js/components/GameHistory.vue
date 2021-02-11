@@ -3,7 +3,7 @@
 
     <div class="row">
     <div class="card-body" style="padding-bottom: 15px">
-      <h5> Game history:</h5>
+      <h5> Game history123:</h5>
     </div>
     </div>
 
@@ -18,10 +18,10 @@
       </thead>
       <tbody>
       <template v-for="(move, key, index) in pgnArray">
-        <tr>
+        <tr class="game-moves">
           <td>{{key + 1}}</td>
-          <td :class="{ activeMove: (activeMove == move.idWhite) }">{{move.white}}</td>
-          <td :class="{ activeMove: (activeMove == move.idBlack) }">{{move.black}}</td>
+          <td @click="loadMoves" :data-move-san="move.white" :data-move-number="move.idWhite" :class="{ activeMove: (activeMove == move.idWhite) }">{{move.white}}</td>
+          <td @click="loadMoves" :data-move-san="move.black" :data-move-number="move.idBlack" :class="{ activeMove: (activeMove == move.idBlack) }">{{move.black}}</td>
         </tr>
       </template>
 
@@ -34,13 +34,15 @@
 
 <script>
 import * as Chess from "../../chess";
+import * as Ajax from '../modules/ajaxCalls.js';
 
 export default {
   name: "GameHistory",
   data: function () {
     return {
-        currentPgn: '',
-        moves: []
+      currentPgn: '',
+      moves: [],
+      move_history: []
     }
   },
   computed: {
@@ -62,6 +64,12 @@ export default {
         game.load_pgn(pgn);
 
         let history = game.history({verbose: true});
+        let gameHistoryMovesArray = game.history();
+
+        this.$store.dispatch('setGameHistory', gameHistoryMovesArray);
+
+        console.log(this.move_history);
+
         let gameHeaders = game.header();
         let gameResult = gameHeaders.Result;
         let turn = 1;
@@ -118,7 +126,32 @@ export default {
     }
   },
   methods: {
+    calculateFen(san, moveNumber) {
+      let gameHistory = this.$store.getters.gameHistory;
+      let game = new Chess();
 
+      let i=0;
+      while (i < (moveNumber + 1)) {
+        game.move(gameHistory[i]);
+
+        if (i == moveNumber) {
+            this.$store.dispatch('setGame', game);
+            return game.fen();
+        }
+        i++;
+      }
+
+      return false;
+    },
+
+    loadMoves: function (event) {
+      let san = event.currentTarget.getAttribute('data-move-san');
+      let activeMove = parseInt(event.currentTarget.getAttribute('data-move-number'));
+      let gameHistory = this.$store.getters.gameHistory;
+
+      this.$store.dispatch('calculateNewPosition', {gameHistory, activeMove})
+      this.$store.dispatch('setActiveMove', activeMove);
+     }
   },
 };
 </script>

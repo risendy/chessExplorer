@@ -38,7 +38,8 @@ export default new Vuex.Store({
         test: 1,
         movePositionButtonsVisible: false,
         activeMove: null,
-        activeGameRow: null
+        activeGameRow: null,
+        gameHistory: null
     },
     getters: {
         getPgn (state) {
@@ -64,9 +65,15 @@ export default new Vuex.Store({
         },
         activeGameRow (state) {
             return state.activeGameRow;
+        },
+        gameHistory (state) {
+            return state.gameHistory;
         }
     },
     mutations: {
+        setGame (state , game) {
+            state.game = game
+        },
         changePgn (state , pgn) {
             state.pgnState = pgn
         },
@@ -91,31 +98,57 @@ export default new Vuex.Store({
             state.board.position(fen);
         },
         prevMove(state) {
-            let fen = state.game.back();
-            state.board.position(fen);
-        },
-        nextMove(state) {
-            let fen = state.game.next();
-            state.board.position(fen);
-        },
-        saveFen(state, fen) {
-            state.fen = fen;
-        },
-        incrementActiveMove(state) {
-            state.activeMove = state.activeMove + 1;
-        },
-        decrementActiveMove(state) {
-            state.activeMove = state.activeMove - 1;
-        },
-        setActiveMove(state, move) {
-            state.activeMove = move;
-        },
-        setActiveGameRow(state, row) {
-            state.activeGameRow = row;
-        },
-    },
-    actions: {
-        prevMove(state) {
+           let gameHistory = state.gameHistory;
+           let activeMove = state.activeMove;
+           this.dispatch('calculateNewPosition', {gameHistory, activeMove});
+       },
+       nextMove(state) {
+           let gameHistory = state.gameHistory;
+           let activeMove = state.activeMove;
+           this.dispatch('calculateNewPosition', {gameHistory, activeMove});
+       },
+       saveFen(state, fen) {
+           state.fen = fen;
+       },
+       incrementActiveMove(state) {
+           state.activeMove = state.activeMove + 1;
+       },
+       decrementActiveMove(state) {
+           state.activeMove = state.activeMove - 1;
+       },
+       setActiveMove(state, move) {
+           state.activeMove = move;
+       },
+       setActiveGameRow(state, row) {
+           state.activeGameRow = row;
+       },
+       setGameHistory(state, gameHistory) {
+           state.gameHistory = gameHistory;
+       },
+   },
+   actions: {
+       calculateNewPosition(state, {gameHistory, activeMove}) {
+           let game = new Chess();
+
+           let i=0;
+           while (i < (activeMove + 1)) {
+               game.move(gameHistory[i]);
+
+               if (i == activeMove) {
+                   let fen = game.fen();
+
+                   this.commit('setGame', game);
+                   this.commit('saveFen', fen);
+                   this.commit('changeBoardPosition', fen);
+                   Ajax.getMostPopularMovesInThePosition(fen);
+               }
+               i++;
+           }
+       },
+       setGame(state, game) {
+           state.commit('setGame', game);
+       },
+       prevMove(state) {
             state.commit('prevMove');
         },
         nextMove(state) {
@@ -153,7 +186,10 @@ export default new Vuex.Store({
         },
         setActiveGameRow(state, row) {
             state.commit('setActiveGameRow', row);
-        }
+        },
+        setGameHistory(state, gameHistory) {
+            state.commit('setGameHistory', gameHistory);
+        },
     }
 })
 
