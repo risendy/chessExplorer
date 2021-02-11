@@ -3,7 +3,7 @@
 
     <div class="row">
     <div class="card-body" style="padding-bottom: 15px">
-      <h5> Game history123:</h5>
+      <h5> Game history:</h5>
     </div>
     </div>
 
