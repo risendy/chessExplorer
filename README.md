@@ -24,10 +24,10 @@ Project is created with:
 * displaying paginated clickable games from db
 * going through the games with next/prev buttons
 * displaying most popular moves in the position
+* displaying game result percentage for the most popular moves
 * playing the position from the start (useful for opening preparation)
 
 ## To do
-* displaying game result for the most popular moves
 * games searching
 * position searching
 * stockfish.js integration to analyse games
