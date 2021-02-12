@@ -1,11 +1,14 @@
 <template>
     <div class="well text-center gameNavigationButtons">
         <span v-if="buttonsVisible">
-          <button class="btn btn-success" id="prevBtn" v-on:click="prevMove">prev</button>
-          <button class="btn btn-success" id="nextBtn" v-on:click="nextMove">next</button>
+          <button class="btn btn-success" id="prevBtn" v-on:click="prevMove"><i class="bi bi-arrow-left-circle"></i>
+ prev</button>
+          <button class="btn btn-success" id="nextBtn" v-on:click="nextMove"><i class="bi bi-arrow-right-circle"></i>
+ next</button>
         </span>
 
-        <button class="btn btn-success" id="resetPosition" v-on:click="resetPosition">reset</button>
+        <button class="btn btn-success" id="resetPosition" v-on:click="resetPosition"><i class="bi bi-arrow-clockwise"></i>
+           reset</button>
     </div>
 </template>
 

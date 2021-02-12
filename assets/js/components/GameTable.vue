@@ -3,19 +3,17 @@
   <div class="card card_info">
 
     <div class="card-body">
-      <h5> Games:
-
+      <h5> <i class="bi bi-list"></i>
+         Games:
       </h5>
 
       <table class="table table-striped" style="table-layout: fixed;">
         <thead>
         <tr>
-          <th>date</th>
-          <th>white</th>
-          <th>elo</th>
-          <th>black</th>
-          <th>elo</th>
-          <th>result</th>
+          <th class="date-table-header">date</th>
+          <th class="white-table-header">white</th>
+          <th class="black-table-header">black</th>
+          <th class="result-table-header">result</th>
         </tr>
         </thead>
         <tbody>
@@ -23,9 +21,7 @@
             <tr v-on:click="loadGame" :data-pgn="game.pgn" :data-id="game.id" :class="{ activeGame: (activeGameRow == game.id) }">
               <td>{{game.date}}</td>
               <td>{{game.white}}</td>
-              <td>{{game.whiteElo}}</td>
               <td>{{game.black}}</td>
-              <td>{{game.blackElo}}</td>
               <td>{{game.result}}</td>
             </tr>
           </template>

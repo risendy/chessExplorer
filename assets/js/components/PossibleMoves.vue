@@ -3,7 +3,8 @@
 
     <div class="row">
       <div class="card-body" style="padding-bottom: 15px">
-        <h5> Most popular moves:</h5>
+        <h5> <i class="bi bi-list"></i>
+           Most popular moves:</h5>
       </div>
     </div>
 
