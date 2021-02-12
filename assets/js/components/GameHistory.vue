@@ -68,8 +68,6 @@ export default {
 
         this.$store.dispatch('setGameHistory', gameHistoryMovesArray);
 
-        console.log(this.move_history);
-
         let gameHeaders = game.header();
         let gameResult = gameHeaders.Result;
         let turn = 1;

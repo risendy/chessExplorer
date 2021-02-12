@@ -14,6 +14,7 @@
         <th>lp</th>
         <th>move</th>
         <th>times</th>
+        <th class="possible-move-game-result-header">white/draw/black</th>
       </tr>
       </thead>
       <tbody>
@@ -22,6 +23,11 @@
           <td>{{key + 1}}</td>
           <td>{{move.moveSan}}</td>
           <td>{{move.moveCount}}</td>
+          <td>
+            <span v-if="move.moveCountWhiteWin"><i class="bi bi-hexagon"></i> {{move.moveCountWhiteWin}}%</span>
+            <span v-if="move.moveCountDraw"><i class="bi bi-hexagon-half"></i> {{move.moveCountDraw}}%</span>
+            <span v-if="move.moveCountBlackWin"><i class="bi bi-hexagon-fill"></i> {{move.moveCountBlackWin}}%</span>
+          </td>
         </tr>
       </template>
       </tbody>

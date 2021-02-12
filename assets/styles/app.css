@@ -48,3 +48,7 @@ body {
 .game-moves td {
     cursor:pointer;
 }
+
+.possible-move-game-result-header {
+    width: 50%;
+}

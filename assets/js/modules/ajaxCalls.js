@@ -11,14 +11,18 @@ export function getMostPopularMovesInThePosition (fen = 'rnbqkbnr/pppppppp/8/8/8
         fenString:fen
     })
         .then(response => {
-            var respArray = [];
+            let respArray = [];
+            let data = response.data;
 
-            for (let i=0; i<response.data.length; i++) {
+            for (let key in data) {
                 let move = {};
-                move.moveSan = response.data[i].next_move_san;
-                move.moveCount = response.data[i].numer_of_moves;
+                move.moveSan = key;
+                move.moveCount = data[key].count_sum;
+                move.moveCountWhiteWin = data[key].count_white_win;
+                move.moveCountBlackWin = data[key].count_black_win;
+                move.moveCountDraw = data[key].count_draw;
 
-                respArray.push(move);
+                respArray.push(move)
             }
 
             store.state.possibleMoves = respArray;
