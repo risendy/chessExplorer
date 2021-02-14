@@ -32,10 +32,32 @@ class GameRepository extends ServiceEntityRepository
         $em->clear();
     }
 
-    public function getPaginatedGames($page, $pageSize) {
-        $query = $this->createQueryBuilder('g')
-            ->orderBy('g.date', 'DESC')
-            ->getQuery();
+    public function getPaginatedGames($page, $pageSize, $whitePlayer, $blackPlayer, $result) {
+        if (!$whitePlayer && !$blackPlayer && !$result) {
+            $query = $this->createQueryBuilder('g')
+                ->orderBy('g.date', 'DESC')
+                ->getQuery();
+        }
+        else
+        {
+            $query = $this->createQueryBuilder('g');
+
+            if ($whitePlayer) {
+                $query->andWhere('g.white LIKE :white')
+                ->setParameter('white', '%'.$whitePlayer.'%');
+            }
+            if ($blackPlayer) {
+                $query->andWhere('g.black LIKE :black')
+                    ->setParameter('black', '%'.$blackPlayer.'%');
+            }
+            if ($result) {
+                $query->andWhere('g.result = :result')
+                ->setParameter('result', $result);
+            }
+
+            $query->orderBy('g.date', 'DESC')
+                ->getQuery();
+        }
 
         $paginator = new \Doctrine\ORM\Tools\Pagination\Paginator($query);
 

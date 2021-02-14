@@ -33,10 +33,10 @@ class GameService
         $this->gameRepository->flush();
     }
 
-    public function getGamesInfoRange($page, $pageSize = 10)
+    public function getGamesInfoRange($page, $pageSize = 10, $whitePlayer, $blackPlayer, $result)
     {
         $games = [];
-        $items = $this->gameRepository->getPaginatedGames($page, $pageSize);
+        $items = $this->gameRepository->getPaginatedGames($page, $pageSize, $whitePlayer, $blackPlayer, $result);
 
         foreach ($items as $pageItem) {
             $games[] = [

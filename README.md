@@ -1,5 +1,6 @@
 ## Table of contents
 * [General info](#general-info)
+* [Architecture](#architecture)
 * [Technologies](#technologies)
 * [Features](#features)
 * [Installation](#installation)
@@ -7,6 +8,10 @@
 
 ## General info
 Symfony/vuex web based demo to explore/view chess games from the database.
+
+## Architecture
+Entire front-end is made using Vue.js/Vuex using SPA architecture.
+Symfony framework acts as a backend API and is used to communicate with the database.
 
 ## Technologies
 Project is created with:
@@ -21,13 +26,13 @@ Project is created with:
 
 ## Features
 * importing pgn games into DB from pgn file using symfony command
-* displaying paginated clickable games from db
+* displaying paginated games from the db
 * going through the games with next/prev buttons
-* displaying most popular moves in the position
+* displaying most popular moves in the current position
 * playing the position from the start (useful for opening preparation)
+* basic filters (white/black player, game result)
 
 ## To do
-* displaying game result for the most popular moves
 * games searching
 * position searching
 * stockfish.js integration to analyse games
@@ -60,3 +65,4 @@ php bin/console app:import-games --env=prod --no-debug filename
 ## Screenshots
 ![Opening book](public/img/screen1.png)
 ![Game explorer](public/img/screen2.png)
+![Filters example](public/img/screen3.png)

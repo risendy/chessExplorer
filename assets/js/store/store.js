@@ -10,7 +10,7 @@ import * as Ajax from "../modules/ajaxCalls";
 Vue.use(Vuex)
 
 export async function fetchGames (opts) {
-    const games = await window.fetch(`/get_paginated_games?page=${opts.page}&limit=${opts.pageSize}`)
+    const games = await window.fetch(`/get_paginated_games?page=${opts.page}&limit=${opts.pageSize}&whitePlayerFilter=${opts.args.whitePlayerFilter}&blackPlayerFilter=${opts.args.blackPlayerFilter}&resultFilter=${opts.args.resultFilter}`)
         .then(response => {
             return response.json();
         })

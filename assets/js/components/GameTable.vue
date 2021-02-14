@@ -7,6 +7,27 @@
          Games:
       </h5>
 
+      <form>
+        <div class="form-group row">
+          <label for="inputEmail3" class="col-sm-2 col-form-label"><i class="bi bi-hexagon"></i> White</label>
+          <div class="col-sm-10">
+            <input v-model="whitePlayerFilter" type="string" class="form-control" id="inputEmail3" placeholder="start typing...">
+          </div>
+        </div>
+        <div class="form-group row">
+          <label for="inputEmail3" class="col-sm-2 col-form-label"><i class="bi bi-hexagon-fill"></i> Black</label>
+          <div class="col-sm-10">
+            <input v-model="blackPlayerFilter" type="string" class="form-control" id="inputEmail3" placeholder="start typing...">
+          </div>
+        </div>
+        <div class="form-group row">
+          <label for="inputEmail3" class="col-sm-2 col-form-label"><i class="bi bi-check-square"></i> Result</label>
+          <div class="col-sm-10">
+            <input v-model="resultFilter" type="string" class="form-control" id="inputEmail3" placeholder="start typing...">
+          </div>
+        </div>
+      </form>
+
       <table class="table table-striped" style="table-layout: fixed;">
         <thead>
         <tr>
@@ -30,7 +51,7 @@
               <li @click="firstPage" class="page-item" v-bind:class="{ active: activeFirst}"><a class="page-link" href="#">1</a></li>
               <li v-if="gamesDb.page > 1" @click="previousPage" class="page-item"><a class="page-link" href="#">Previous</a></li>
               <li v-if="gamesDb.page < gamesDb.totalPages" @click="nextPage" class="page-item"><a class="page-link" href="#">Next</a></li>
-              <li @click="lastPage" class="page-item" v-bind:class="{ active: activeLast}"><a class="page-link" href="#">{{ gamesDb.totalPages }}</a></li>
+              <li v-if="gamesDb.totalPages > 1" @click="lastPage" class="page-item" v-bind:class="{ active: activeLast}"><a class="page-link" href="#">{{ gamesDb.totalPages }}</a></li>
             </ul>
 
         </tbody>
@@ -51,6 +72,13 @@ export default {
   name: "GameTable",
   data: function () {
     return {
+      eloWhiteFromFilter: '',
+      eloWhiteToFilter: '',
+      eloBlackFromFilter: '',
+      eloBlackToFilter: '',
+      whitePlayerFilter: '',
+      blackPlayerFilter: '',
+      resultFilter: '',
       games: [],
       errors: [],
       activeFirst: true,
@@ -106,7 +134,15 @@ export default {
   computed: {
     gamesDb: createInstance('games', {
       page: 1,
-      pageSize: 10
+      pageSize: 10,
+      args () {
+        let result = {};
+        result.whitePlayerFilter = this.whitePlayerFilter;
+        result.blackPlayerFilter = this.blackPlayerFilter;
+        result.resultFilter = this.resultFilter;
+
+        return result;
+      }
     }),
     activeGameRow: function () {
       return this.$store.getters.activeGameRow;

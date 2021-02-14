@@ -55,8 +55,11 @@ class ApiController extends AbstractController
     {
         $page = $request->query->get('page');
         $limit = $request->query->get('limit');
+        $whitePlayer = $request->query->get('whitePlayerFilter');
+        $blackPlayer = $request->query->get('blackPlayerFilter');
+        $result = $request->query->get('resultFilter');
 
-        $result = $this->gameService->getGamesInfoRange($page, $limit);
+        $result = $this->gameService->getGamesInfoRange($page, $limit, $whitePlayer, $blackPlayer, $result);
 
         return new JsonResponse([$result]);
     }
