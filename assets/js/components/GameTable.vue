@@ -28,7 +28,7 @@
         </div>
       </form>
 
-      <table class="table table-striped" style="table-layout: fixed;">
+      <table v-if="!isLoading && gamesDb.items.length > 0" class="table table-striped" style="table-layout: fixed;">
         <thead>
         <tr>
           <th class="date-table-header">date</th>
@@ -55,6 +55,18 @@
             </ul>
 
         </tbody>
+      </table>
+
+      <table v-else-if="!isLoading && gamesDb.items.length == 0" class="table table-striped" style="table-layout: fixed;">
+        <div class="alert alert-success" role="alert">
+          No games found...
+        </div>
+      </table>
+
+      <table v-else class="table table-striped" style="table-layout: fixed;">
+        <div class="d-flex justify-content-center">
+          <div class="spinner-grow text-success " role="status"></div>
+        </div>
       </table>
 
     </div>
@@ -147,6 +159,9 @@ export default {
     activeGameRow: function () {
       return this.$store.getters.activeGameRow;
     },
+    isLoading: function () {
+      return this.$store.getters.areGamesLoading;
+    }
   },
   mounted () {
     var url = Routing.generate('ajax_get_games');

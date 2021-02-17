@@ -6,15 +6,20 @@ import ChessBoard from "chessboardjs";
 import * as Chess from '../../chess';
 import * as Func from "../modules/functions";
 import * as Ajax from "../modules/ajaxCalls";
+import Store from '../store/store.js'
 
 Vue.use(Vuex)
 
 export async function fetchGames (opts) {
+    Store.commit('setGamesAreLoading', true);
+
     const games = await window.fetch(`/get_paginated_games?page=${opts.page}&limit=${opts.pageSize}&whitePlayerFilter=${opts.args.whitePlayerFilter}&blackPlayerFilter=${opts.args.blackPlayerFilter}&resultFilter=${opts.args.resultFilter}`)
         .then(response => {
+            Store.commit('setGamesAreLoading', false);
             return response.json();
         })
         .catch((error) => {
+            Store.commit('setGamesAreLoading', false);
             this.dispatch('SHOW_GLOBAL_ERROR_MESSAGE', error.response.data.message);
             return {
                 total: 0,
@@ -35,11 +40,11 @@ export default new Vuex.Store({
         game: null,
         possibleMoves: [],
         fen: '',
-        test: 1,
         movePositionButtonsVisible: false,
         activeMove: null,
         activeGameRow: null,
-        gameHistory: null
+        gameHistory: null,
+        areGamesLoading: false
     },
     getters: {
         getPgn (state) {
@@ -68,6 +73,9 @@ export default new Vuex.Store({
         },
         gameHistory (state) {
             return state.gameHistory;
+        },
+        areGamesLoading (state) {
+            return state.areGamesLoading;
         }
     },
     mutations: {
@@ -124,6 +132,9 @@ export default new Vuex.Store({
        },
        setGameHistory(state, gameHistory) {
            state.gameHistory = gameHistory;
+       },
+       setGamesAreLoading(state, val) {
+            state.areGamesLoading = val;
        },
        makeMoveFromPopularMoves(state, san) {
            let game = state.game;

@@ -33,7 +33,9 @@
       </tbody>
     </table>
     <table v-else class="table" style="table-layout: fixed;">
-      <div class="spinner-grow text-success" role="status"></div>
+      <div class="d-flex justify-content-center">
+        <div class="spinner-grow text-success " role="status"></div>
+      </div>
     </table>
 
   </div>

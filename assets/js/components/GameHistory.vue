@@ -28,8 +28,8 @@
       </tbody>
     </table>
     <table v-else class="table table-striped table-sm" style="table-layout: fixed;">
-      <div class="well">
-          No game history..
+      <div class="alert alert-success" role="alert">
+        No game history...
       </div>
     </table>
 
