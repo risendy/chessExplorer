@@ -7,6 +7,8 @@ import store from "../store/store";
  * @returns {Promise<unknown>}
  */
 export function getMostPopularMovesInThePosition (fen = 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1') {
+    store.state.possibleMoves = false;
+
     return axios.post(Routing.generate('ajax_get_popular_moves'), {
         fenString:fen
     })

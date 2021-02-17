@@ -8,7 +8,7 @@
       </div>
     </div>
 
-    <table class="table" style="table-layout: fixed;">
+    <table v-if="possibleMoves" class="table" style="table-layout: fixed;">
       <thead>
       <tr>
         <th>lp</th>
@@ -31,6 +31,9 @@
         </tr>
       </template>
       </tbody>
+    </table>
+    <table v-else class="table" style="table-layout: fixed;">
+      <div class="spinner-grow text-success" role="status"></div>
     </table>
 
   </div>

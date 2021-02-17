@@ -8,7 +8,7 @@
     </div>
 
     <div class="row">
-    <table class="table table-striped table-sm" style="table-layout: fixed;">
+    <table v-if="pgnArray.length > 0" class="table table-striped table-sm" style="table-layout: fixed;">
       <thead>
       <tr>
         <th>move</th>
@@ -27,8 +27,13 @@
 
       </tbody>
     </table>
-    </div>
+    <table v-else class="table table-striped table-sm" style="table-layout: fixed;">
+      <div class="well">
+          No game history..
+      </div>
+    </table>
 
+    </div>
   </div>
 </template>
 
