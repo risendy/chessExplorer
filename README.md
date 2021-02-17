@@ -30,6 +30,7 @@ Project is created with:
 * going through the games with next/prev buttons
 * displaying most popular moves in the current position
 * playing the position from the start (useful for opening preparation)
+* playing moves from the most popular moves in the position (useful for opening preparation)
 * basic filters (white/black player, game result)
 
 ## To do
