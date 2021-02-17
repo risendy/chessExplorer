@@ -39,7 +39,7 @@
         </thead>
         <tbody>
           <template v-for="game in gamesDb.items">
-            <tr v-on:click="loadGame" :data-pgn="game.pgn" :data-id="game.id" :class="{ activeGame: (activeGameRow == game.id) }">
+            <tr v-on:click="loadGame" :data-pgn="game.pgn" :data-id="game.id" :class="{ 'table-success': (activeGameRow == game.id) }">
               <td>{{game.date}}</td>
               <td>{{game.white}}</td>
               <td>{{game.black}}</td>

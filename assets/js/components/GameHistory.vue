@@ -20,8 +20,8 @@
       <template v-for="(move, key, index) in pgnArray">
         <tr class="game-moves">
           <td>{{key + 1}}</td>
-          <td @click="loadMoves" :data-move-san="move.white" :data-move-number="move.idWhite" :class="{ activeMove: (activeMove == move.idWhite) }">{{move.white}}</td>
-          <td @click="loadMoves" :data-move-san="move.black" :data-move-number="move.idBlack" :class="{ activeMove: (activeMove == move.idBlack) }">{{move.black}}</td>
+          <td @click="loadMoves" :data-move-san="move.white" :data-move-number="move.idWhite" :class="{ 'table-success': (activeMove == move.idWhite) }">{{move.white}}</td>
+          <td @click="loadMoves" :data-move-san="move.black" :data-move-number="move.idBlack" :class="{ 'table-success': (activeMove == move.idBlack) }">{{move.black}}</td>
         </tr>
       </template>
 

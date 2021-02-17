@@ -8,7 +8,7 @@
       </div>
     </div>
 
-    <table class="table table-striped" style="table-layout: fixed;">
+    <table class="table" style="table-layout: fixed;">
       <thead>
       <tr>
         <th>lp</th>
@@ -19,7 +19,7 @@
       </thead>
       <tbody>
       <template v-for="(move, key, index) in possibleMoves">
-        <tr>
+        <tr class="possible-move-row" @click="makePossibleMove(move.moveSan)">
           <td>{{key + 1}}</td>
           <td>{{move.moveSan}}</td>
           <td>{{move.moveCount}}</td>
@@ -53,7 +53,9 @@ export default {
     }
   },
   methods: {
-
+    makePossibleMove(san) {
+      this.$store.dispatch('makeMoveFromPopularMoves', san);
+    }
   },
 };
 </script>

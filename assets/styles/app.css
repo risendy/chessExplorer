@@ -52,3 +52,11 @@ body {
 .possible-move-game-result-header {
     width: 50%;
 }
+
+.possible-move-row {
+    cursor: pointer;
+}
+
+.possible-move-row:hover {
+    background-color: #c3e6cb;
+}

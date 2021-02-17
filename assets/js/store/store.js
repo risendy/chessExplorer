@@ -125,8 +125,26 @@ export default new Vuex.Store({
        setGameHistory(state, gameHistory) {
            state.gameHistory = gameHistory;
        },
+       makeMoveFromPopularMoves(state, san) {
+           let game = state.game;
+           game.move(san);
+
+           let activeMove = parseInt(state.activeMove) + 1;
+           let gameHistory = game.history();
+           let pgn = game.pgn();
+
+           if (!activeMove) {
+               activeMove = 0;
+           }
+
+           this.dispatch('changePgn', pgn);
+           this.dispatch('calculateNewPosition', {gameHistory, activeMove});
+       },
    },
    actions: {
+        makeMoveFromPopularMoves(state, san){
+            state.commit('makeMoveFromPopularMoves', san);
+        },
        calculateNewPosition(state, {gameHistory, activeMove}) {
            let game = new Chess();
 
@@ -189,6 +207,9 @@ export default new Vuex.Store({
         },
         setGameHistory(state, gameHistory) {
             state.commit('setGameHistory', gameHistory);
+        },
+        changePgn(state, pgn) {
+           state.commit('changePgn', pgn);
         },
     }
 })
