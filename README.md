@@ -60,7 +60,11 @@ import games from pgn file using symfony command. The file should exists in the 
 The command takes one input argument which is a name of the file eg. (games.pgn) 
 For bigger files it may take a while (importing about 3 games per second)
 ```
-php bin/console app:import-games --env=prod --no-debug filename 
+php bin/console app:import-games --env=prod --no-debug {filename} 
+```
+if you want to use provided file with around 13k games use:
+```
+php bin/console app:import-games --env=prod --no-debug KingBase_part_1.pgn 
 ```
 
 ## Screenshots

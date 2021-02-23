@@ -28,6 +28,31 @@ class Move
     private $color;
 
     /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $inCheck;
+
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $inDraw;
+
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $inCheckmate;
+
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $inStalemate;
+
+    /**
+     * @ORM\Column(type="string", length=25, nullable=true)
+     */
+    private $flags;
+
+    /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $moveSan;
@@ -122,5 +147,85 @@ class Move
         $this->nextMove = $nextMove;
 
         return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getInCheck()
+    {
+        return $this->inCheck;
+    }
+
+    /**
+     * @param mixed $inCheck
+     */
+    public function setInCheck($inCheck): void
+    {
+        $this->inCheck = $inCheck;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getFlags()
+    {
+        return $this->flags;
+    }
+
+    /**
+     * @param mixed $flags
+     */
+    public function setFlags($flags): void
+    {
+        $this->flags = $flags;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getInDraw()
+    {
+        return $this->inDraw;
+    }
+
+    /**
+     * @param mixed $inDraw
+     */
+    public function setInDraw($inDraw): void
+    {
+        $this->inDraw = $inDraw;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getInCheckmate()
+    {
+        return $this->inCheckmate;
+    }
+
+    /**
+     * @param mixed $inCheckmate
+     */
+    public function setInCheckmate($inCheckmate): void
+    {
+        $this->inCheckmate = $inCheckmate;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getInStalemate()
+    {
+        return $this->inStalemate;
+    }
+
+    /**
+     * @param mixed $inStalemate
+     */
+    public function setInStalemate($inStalemate): void
+    {
+        $this->inStalemate = $inStalemate;
     }
 }

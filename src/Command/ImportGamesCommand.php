@@ -92,6 +92,7 @@ protected function execute(InputInterface $input, OutputInterface $output)
 
             //get list of moves
             $moves = $chess->history();
+            $moves_verbose = $chess->history(["verbose"=>true]);
 
             $prevMoveEntity = '';
 
@@ -100,6 +101,11 @@ protected function execute(InputInterface $input, OutputInterface $output)
             for ($j = 0; $j < sizeof($moves); $j++){
                 $move = new Move();
                 $chessTmp->move($moves[$j]);
+                $inCheck = $chessTmp->inCheck();
+                $inCheckMate = $chessTmp->inCheckmate();
+                $inDraw = $chessTmp->inDraw();
+                $inStalemate = $chessTmp->inStalemate();
+                $flags = $moves_verbose[$j]['flags'];
 
                 if ($j % 2 == 0) {
                     $turn = 'w';
@@ -114,6 +120,11 @@ protected function execute(InputInterface $input, OutputInterface $output)
                 $move->setColor($turn);
                 $move->setMoveNumber($j+1);
                 $move->setFen($fen);
+                $move->setInCheck($inCheck);
+                $move->setFlags($flags);
+                $move->setInCheckmate($inCheckMate);
+                $move->setInStalemate($inStalemate);
+                $move->setInDraw($inDraw);
 
                 $move->setGameFk($game);
 
