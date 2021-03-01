@@ -42,7 +42,6 @@
 </template>
 
 <script>
-import Store from "../store/store";
 import * as Chess from "../../chess";
 
 export default {

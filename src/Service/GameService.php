@@ -35,6 +35,8 @@ class GameService
 
     public function getGamesInfoRange($page, $pageSize = 10, $whitePlayer, $blackPlayer, $result)
     {
+        $this->gameRepository->clear();
+
         $games = [];
         $items = $this->gameRepository->getPaginatedGames($page, $pageSize, $whitePlayer, $blackPlayer, $result);
 
@@ -46,16 +48,51 @@ class GameService
                 "black" => $pageItem->getBlack(),
                 "whiteElo" => $pageItem->getWhiteElo(),
                 "blackElo" => $pageItem->getBlackElo(),
+                "favourite" => $pageItem->getFavourite(),
                 "result" => $pageItem->getResult(),
                 "date" => $pageItem->getDate()->format('Y-m-d'),
             ];
         }
 
-        return ['items' => $games, 'total' => count($items)];
+        return ['items' => $games, 'total' => count($games)];
+    }
+
+    public function getFavouriteGamesInfoRange($page, $pageSize = 10)
+    {
+        $games = [];
+        $items = $this->gameRepository->getPaginatedFavouriteGames($page, $pageSize);
+
+        foreach ($items as $pageItem) {
+            $games[] = [
+                "id" => $pageItem->getId(),
+                "pgn" => $pageItem->getPgn(),
+                "white" => $pageItem->getWhite(),
+                "black" => $pageItem->getBlack(),
+                "whiteElo" => $pageItem->getWhiteElo(),
+                "blackElo" => $pageItem->getBlackElo(),
+                "favourite" => $pageItem->getFavourite(),
+                "result" => $pageItem->getResult(),
+                "date" => $pageItem->getDate()->format('Y-m-d'),
+            ];
+        }
+
+        return ['items' => $games, 'total' => count($games)];
     }
 
     public function getLastGames()
     {
         return $this->gameRepository->findBy([],[], 10);
+    }
+
+    public function updateGame($id, $flag) {
+        $record = $this->gameRepository->find($id);
+
+        if ($record instanceof Game) {
+            $record->setFavourite(!$flag);
+            $this->gameRepository->persist($record);
+            $this->gameRepository->flush();
+        }
+
+        return $record;
     }
 }

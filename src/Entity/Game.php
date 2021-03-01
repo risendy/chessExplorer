@@ -80,6 +80,11 @@ class Game
     private $pgn;
 
     /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $favourite;
+
+    /**
      * @ORM\OneToMany(targetEntity=Move::class, mappedBy="gameFk")
      */
     private $moves;
@@ -266,5 +271,21 @@ class Game
         $this->pgn = $pgn;
 
         return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getFavourite()
+    {
+        return $this->favourite;
+    }
+
+    /**
+     * @param mixed $favourite
+     */
+    public function setFavourite($favourite): void
+    {
+        $this->favourite = $favourite;
     }
 }

@@ -64,6 +64,16 @@ class ApiController extends AbstractController
         return new JsonResponse([$result]);
     }
 
+    public function getFavouriteGamesPaginated(Request $request): JsonResponse
+    {
+        $page = $request->query->get('page');
+        $limit = $request->query->get('limit');
+
+        $result = $this->gameService->getFavouriteGamesInfoRange($page, $limit);
+
+        return new JsonResponse([$result]);
+    }
+
     public function getPopularMoves(Request $request): JsonResponse
     {
         $content = $request->getContent();
@@ -74,5 +84,22 @@ class ApiController extends AbstractController
         $result = $this->moveService->getPopularMovesInThePosition($fen);
 
         return new JsonResponse($result);
+    }
+
+    public function updateGame(Request $request): JsonResponse
+    {
+        $content = $request->getContent();
+        $contentDecoded = json_decode($content, true);
+
+        $id = $contentDecoded['id'];
+        $flag = $contentDecoded['flag'];
+
+        $result = $this->gameService->updateGame($id, $flag);
+
+        if ($result) {
+            return new JsonResponse(['status' => 'ok']);
+        }
+
+        return new JsonResponse(['status' => 'error']);
     }
 }

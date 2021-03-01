@@ -6,7 +6,8 @@
  */
 
 require('chessboardjs/www/css/chessboard.css');
-require('bootstrap/dist/css/bootstrap.css');
+import 'bootstrap/dist/css/bootstrap.css'
+import 'bootstrap-vue/dist/bootstrap-vue.css'
 require('bootstrap-icons/font/bootstrap-icons.css');
 
 // any CSS you import will output into a single css file (app.css in this case)

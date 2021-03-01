@@ -1,8 +1,7 @@
-import store from "../store/store";
-import * as Ajax from '../modules/ajaxCalls.js';
+import store from "../store/index.js";
 
 export function onDragStart (source, piece, position, orientation) {
-    let game = store.state.game;
+    let game = store.getters.getGame;
 
     // do not pick up pieces if the game is over
     //if (Store.getters.getGame.game_over()) return false
@@ -15,7 +14,7 @@ export function onDragStart (source, piece, position, orientation) {
 }
 
 export function onDrop (source, target) {
-    let game = store.state.game;
+    let game = store.getters.getGame;
 
     // see if the move is legal
     var move = game.move({
@@ -27,9 +26,8 @@ export function onDrop (source, target) {
     let newFen = game.fen();
     let pgn = game.pgn();
 
-    Ajax.getMostPopularMovesInThePosition(newFen);
-
-    store.state.pgnState = pgn;
+    store.dispatch('getMostPopularMovesInThePosition', newFen);
+    store.commit('changePgn', pgn);
 
     // illegal move
     if (move === null) return 'snapback'
@@ -38,7 +36,7 @@ export function onDrop (source, target) {
 // update the board position after the piece snap
 // for castling, en passant, pawn promotion
 export function onSnapEnd () {
-    let game = store.state.game;
+    let game = store.getters.getGame;
 
-    store.state.board.position(game.fen());
+    store.commit('changeBoardPosition', game.fen());
 }

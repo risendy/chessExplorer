@@ -32,6 +32,7 @@ Project is created with:
 * playing the position from the start (useful for opening preparation)
 * playing moves from the most popular moves in the position (useful for opening preparation)
 * basic filters (white/black player, game result)
+* favourite games
 
 ## To do
 * games searching
@@ -71,3 +72,4 @@ php bin/console app:import-games --env=prod --no-debug KingBase_part_1.pgn
 ![Opening book](public/img/screen1.png)
 ![Game explorer](public/img/screen2.png)
 ![Filters example](public/img/screen3.png)
+![Favourite games](public/img/screen4.png)

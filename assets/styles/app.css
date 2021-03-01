@@ -60,3 +60,12 @@ body {
 .possible-move-row:hover {
     background-color: #c3e6cb;
 }
+
+.favIconSpan {
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.span-favourite {
+    color: #d29f00;
+}

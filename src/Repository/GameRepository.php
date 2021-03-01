@@ -72,6 +72,27 @@ class GameRepository extends ServiceEntityRepository
         return $paginator;
     }
 
+    public function getPaginatedFavouriteGames($page, $pageSize) {
+        $query = $this->createQueryBuilder('g');
+        $query->andWhere('g.favourite = :fav')
+            ->setParameter('fav', 1);
+
+        $query->orderBy('g.date', 'DESC')
+            ->getQuery();
+
+        $paginator = new \Doctrine\ORM\Tools\Pagination\Paginator($query);
+
+        $totalItems = count($paginator);
+        $pagesCount = ceil($totalItems / $pageSize);
+
+        $paginator
+            ->getQuery()
+            ->setFirstResult($pageSize * ($page-1)) // set the offset
+            ->setMaxResults($pageSize); // set the limit
+
+        return $paginator;
+    }
+
     // /**
     //  * @return Game[] Returns an array of Game objects
     //  */

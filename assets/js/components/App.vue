@@ -27,11 +27,13 @@ import GameHistory from './GameHistory.vue'
 import GameTable from './GameTable.vue'
 import PossibleMoves from "./PossibleMoves";
 import GameButtons from "./GameButtons";
+import GameListTable from "./GameListTable";
 import * as Func from '../modules/functions.js';
-import * as Ajax from '../modules/ajaxCalls.js';
+import store from '../store/index'
 
 export default {
   name: "AppMain",
+  store: store,
   data: function () {
     return {
 
@@ -44,7 +46,8 @@ export default {
     PossibleMoves,
     GameHistory,
     GameTable,
-    GameButtons
+    GameButtons,
+    GameListTable
   },
   methods: {},
   mounted: function () {
@@ -59,8 +62,7 @@ export default {
     }
 
     this.$store.commit('setInitBoard', config);
-
-    Ajax.getMostPopularMovesInThePosition();
+    this.$store.dispatch('getMostPopularMovesInThePosition');
   }
 };
 

@@ -39,7 +39,6 @@
 
 <script>
 import * as Chess from "../../chess";
-import * as Ajax from '../modules/ajaxCalls.js';
 
 export default {
   name: "GameHistory",
