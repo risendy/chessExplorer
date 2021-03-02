@@ -9,7 +9,7 @@ Vue.use(Vuex);
 export async function fetchGames (opts) {
     Store.commit('setGamesAreLoading', true);
 
-    const games = await window.fetch(`/get_paginated_games?page=${opts.page}&limit=${opts.pageSize}&whitePlayerFilter=${opts.args.whitePlayerFilter}&blackPlayerFilter=${opts.args.blackPlayerFilter}&resultFilter=${opts.args.resultFilter}`)
+    const games = await window.fetch(`/get_paginated_games?page=${opts.page}&limit=${opts.pageSize}&whitePlayerFilter=${opts.args.whitePlayerFilter}&blackPlayerFilter=${opts.args.blackPlayerFilter}&resultFilter=${opts.args.resultFilter}&sort=${opts.args.sortOption}`)
         .then(response => {
             Store.commit('setGamesAreLoading', false);
             return response.json();
@@ -42,7 +42,7 @@ export async function fetchGames (opts) {
 export async function fetchFavouriteGames (opts) {
     Store.commit('setGamesAreLoading', true);
 
-    const games = await window.fetch(`/get_paginated_favourite_games?page=${opts.page}&limit=${opts.pageSize}`)
+    const games = await window.fetch(`/get_paginated_favourite_games?page=${opts.page}&limit=${opts.pageSize}&whitePlayerFilter=${opts.args.whitePlayerFilter}&blackPlayerFilter=${opts.args.blackPlayerFilter}&resultFilter=${opts.args.resultFilter}&sort=${opts.args.sortOption}`)
         .then(response => {
             Store.commit('setGamesAreLoading', false);
             return response.json();

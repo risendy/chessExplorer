@@ -1,4 +1,7 @@
 <template>
+  <div>
+    <game-sort></game-sort>
+
   <table v-if="!isLoading && gamesFavDb.items.length > 0" class="table table-striped" style="table-layout: fixed;">
     <thead>
     <tr>
@@ -41,6 +44,7 @@
 
     </tbody>
   </table>
+  </div>
 </template>
 
 <script>
@@ -49,9 +53,11 @@ import {createInstance} from 'vuex-pagination'
 import GameListTable from "./GameListTable";
 import GameFilters from "./GameFilters";
 import {favouriteGames, games} from "../game";
+import GameSort from "./GameSort";
 
 export default {
   name: "GamesFavourite",
+  components: {GameSort},
   data: function () {
     return {
       activeFirst: true,
@@ -108,7 +114,16 @@ export default {
   computed: {
     gamesFavDb: createInstance('favouriteGames', {
       page: 1,
-      pageSize: 10
+      pageSize: 10,
+      args () {
+        let result = {};
+        result.whitePlayerFilter = this.$store.getters.whitePlayerFilter;
+        result.blackPlayerFilter = this.$store.getters.blackPlayerFilter;
+        result.resultFilter = this.$store.getters.resultFilter;
+        result.sortOption = this.$store.getters.sortOption;
+
+        return result;
+      }
     }),
     activeGameRow: function () {
       return this.$store.getters.activeGameRow;

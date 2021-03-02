@@ -33,6 +33,7 @@ Project is created with:
 * playing moves from the most popular moves in the position (useful for opening preparation)
 * basic filters (white/black player, game result)
 * favourite games
+* game sorting
 
 ## To do
 * games searching

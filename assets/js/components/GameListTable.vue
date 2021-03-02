@@ -1,4 +1,7 @@
 <template>
+  <div>
+  <game-sort></game-sort>
+
   <table v-if="!isLoading && gamesDb.items.length > 0" class="table table-striped" style="table-layout: fixed;">
     <thead>
     <tr>
@@ -53,21 +56,25 @@
       <div class="spinner-grow text-success " role="status"></div>
     </div>
   </table>
+  </div>
 </template>
 
 <script>
 import axios from "axios";
 import {createInstance} from 'vuex-pagination'
 import {favouriteGames, games} from "../game";
+import GameSort from "./GameSort";
 
 export default {
   name: "GameListTable",
+  components: {GameSort},
   data: function () {
     return {
       eloWhiteFromFilter: '',
       eloWhiteToFilter: '',
       eloBlackFromFilter: '',
       eloBlackToFilter: '',
+      sortOption: 'name_asc',
       games: [],
       errors: [],
       activeFirst: true,
@@ -133,6 +140,7 @@ export default {
         result.whitePlayerFilter = this.$store.getters.whitePlayerFilter;
         result.blackPlayerFilter = this.$store.getters.blackPlayerFilter;
         result.resultFilter = this.$store.getters.resultFilter;
+        result.sortOption = this.$store.getters.sortOption;
 
         return result;
       }

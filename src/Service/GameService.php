@@ -33,12 +33,10 @@ class GameService
         $this->gameRepository->flush();
     }
 
-    public function getGamesInfoRange($page, $pageSize = 10, $whitePlayer, $blackPlayer, $result)
+    public function getGamesInfoRange($page, $pageSize = 10, $whitePlayer, $blackPlayer, $result, $sort)
     {
-        $this->gameRepository->clear();
-
         $games = [];
-        $items = $this->gameRepository->getPaginatedGames($page, $pageSize, $whitePlayer, $blackPlayer, $result);
+        $items = $this->gameRepository->getPaginatedGames($page, $pageSize, $whitePlayer, $blackPlayer, $result, $sort);
 
         foreach ($items as $pageItem) {
             $games[] = [
@@ -57,10 +55,10 @@ class GameService
         return ['items' => $games, 'total' => count($games)];
     }
 
-    public function getFavouriteGamesInfoRange($page, $pageSize = 10)
+    public function getFavouriteGamesInfoRange($page, $pageSize = 10, $whitePlayer, $blackPlayer, $result, $sort)
     {
         $games = [];
-        $items = $this->gameRepository->getPaginatedFavouriteGames($page, $pageSize);
+        $items = $this->gameRepository->getPaginatedFavouriteGames($page, $pageSize, $whitePlayer, $blackPlayer, $result, $sort);
 
         foreach ($items as $pageItem) {
             $games[] = [

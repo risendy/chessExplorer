@@ -18,6 +18,7 @@ const state = {
     whitePlayerFilter: '',
     blackPlayerFilter: '',
     resultFilter: '',
+    sortOption: 'date_desc',
 }
 
 const getters = {
@@ -34,6 +35,7 @@ const getters = {
     whitePlayerFilter: state => state.whitePlayerFilter,
     blackPlayerFilter: state => state.blackPlayerFilter,
     resultFilter: state => state.resultFilter,
+    sortOption: state => state.sortOption,
 }
 
 const mutations = {
@@ -117,6 +119,9 @@ const mutations = {
     },
     setResultFilter(state, filter) {
         state.resultFilter = filter;
+    },
+    setSortOption(state, option) {
+        state.sortOption = option;
     },
 }
 

@@ -32,11 +32,11 @@ class GameRepository extends ServiceEntityRepository
         $em->clear();
     }
 
-    public function getPaginatedGames($page, $pageSize, $whitePlayer, $blackPlayer, $result) {
+    public function getPaginatedGames($page, $pageSize, $whitePlayer, $blackPlayer, $result, $sort) {
+        $query = $this->createQueryBuilder('g');
+
         if (!$whitePlayer && !$blackPlayer && !$result) {
-            $query = $this->createQueryBuilder('g')
-                ->orderBy('g.date', 'DESC')
-                ->getQuery();
+
         }
         else
         {
@@ -54,10 +54,12 @@ class GameRepository extends ServiceEntityRepository
                 $query->andWhere('g.result = :result')
                 ->setParameter('result', $result);
             }
-
-            $query->orderBy('g.date', 'DESC')
-                ->getQuery();
         }
+
+        if ($sort == 'date_asc') $query->orderBy('g.date', 'ASC');
+        if ($sort == 'date_desc') $query->orderBy('g.date', 'DESC');
+
+        $query->getQuery();
 
         $paginator = new \Doctrine\ORM\Tools\Pagination\Paginator($query);
 
@@ -72,13 +74,34 @@ class GameRepository extends ServiceEntityRepository
         return $paginator;
     }
 
-    public function getPaginatedFavouriteGames($page, $pageSize) {
+    public function getPaginatedFavouriteGames($page, $pageSize, $whitePlayer, $blackPlayer, $result, $sort) {
         $query = $this->createQueryBuilder('g');
         $query->andWhere('g.favourite = :fav')
             ->setParameter('fav', 1);
 
-        $query->orderBy('g.date', 'DESC')
-            ->getQuery();
+        if (!$whitePlayer && !$blackPlayer && !$result) {
+
+        }
+        else
+        {
+            if ($whitePlayer) {
+                $query->andWhere('g.white LIKE :white')
+                    ->setParameter('white', '%'.$whitePlayer.'%');
+            }
+            if ($blackPlayer) {
+                $query->andWhere('g.black LIKE :black')
+                    ->setParameter('black', '%'.$blackPlayer.'%');
+            }
+            if ($result) {
+                $query->andWhere('g.result = :result')
+                    ->setParameter('result', $result);
+            }
+        }
+
+        if ($sort == 'date_asc') $query->orderBy('g.date', 'ASC');
+        if ($sort == 'date_desc') $query->orderBy('g.date', 'DESC');
+
+        $query->getQuery();
 
         $paginator = new \Doctrine\ORM\Tools\Pagination\Paginator($query);
 

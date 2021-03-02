@@ -58,8 +58,9 @@ class ApiController extends AbstractController
         $whitePlayer = $request->query->get('whitePlayerFilter');
         $blackPlayer = $request->query->get('blackPlayerFilter');
         $result = $request->query->get('resultFilter');
+        $sort = $request->query->get('sort');
 
-        $result = $this->gameService->getGamesInfoRange($page, $limit, $whitePlayer, $blackPlayer, $result);
+        $result = $this->gameService->getGamesInfoRange($page, $limit, $whitePlayer, $blackPlayer, $result, $sort);
 
         return new JsonResponse([$result]);
     }
@@ -68,8 +69,12 @@ class ApiController extends AbstractController
     {
         $page = $request->query->get('page');
         $limit = $request->query->get('limit');
+        $whitePlayer = $request->query->get('whitePlayerFilter');
+        $blackPlayer = $request->query->get('blackPlayerFilter');
+        $result = $request->query->get('resultFilter');
+        $sort = $request->query->get('sort');
 
-        $result = $this->gameService->getFavouriteGamesInfoRange($page, $limit);
+        $result = $this->gameService->getFavouriteGamesInfoRange($page, $limit, $whitePlayer, $blackPlayer, $result, $sort);
 
         return new JsonResponse([$result]);
     }
