@@ -69,3 +69,7 @@ body {
 .span-favourite {
     color: #d29f00;
 }
+
+.icon {
+    font-size: 1.5rem;
+}

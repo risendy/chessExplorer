@@ -25,10 +25,24 @@ class ApiController extends AbstractController
 
     public function getGameInfo(Request $request): JsonResponse
     {
-        $gameId = $request->request->get('gameId');
+        $content = $request->getContent();
+        $contentDecoded = json_decode($content, true);
+        $gameId = $contentDecoded['gameId'];
         $game = $this->gameService->getGameInfo($gameId);
 
-        return new JsonResponse(["pgn" => $game->getPgn()]);
+        return new JsonResponse(
+            [
+                "white" => $game->getWhite(),
+                "black" => $game->getBlack(),
+                "whiteElo" => $game->getWhiteElo(),
+                "blackElo" => $game->getBlackElo(),
+                "result" => $game->getResult(),
+                "event" => $game->getEvent(),
+                "date" => $game->getDate()->format('Y-m-d'),
+                "eventDate" => $game->getEventDate()->format('Y-m-d'),
+                "pgn" => $game->getPgn()
+            ]
+        );
     }
 
     public function getGames(Request $request): JsonResponse

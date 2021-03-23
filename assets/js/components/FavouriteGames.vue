@@ -35,12 +35,7 @@
       </tr>
     </template>
 
-    <ul class="pagination">
-      <li @click="firstPage" class="page-item" v-bind:class="{ active: activeFirst}"><a class="page-link" href="#">1</a></li>
-      <li v-if="gamesFavDb.page > 1" @click="previousPage" class="page-item"><a class="page-link" href="#">Previous</a></li>
-      <li v-if="gamesFavDb.page < gamesFavDb.totalPages" @click="nextPage" class="page-item"><a class="page-link" href="#">Next</a></li>
-      <li v-if="gamesFavDb.totalPages > 1" @click="lastPage" class="page-item" v-bind:class="{ active: activeLast}"><a class="page-link" href="#">{{ gamesFavDb.totalPages }}</a></li>
-    </ul>
+    <game-pagination v-bind:gamesDb="gamesFavDb"></game-pagination>
 
     </tbody>
   </table>
@@ -48,67 +43,34 @@
 </template>
 
 <script>
-import axios from "axios";
 import {createInstance} from 'vuex-pagination'
-import GameListTable from "./GameListTable";
-import GameFilters from "./GameFilters";
 import {favouriteGames, games} from "../game";
 import GameSort from "./GameSort";
+import GamePagination from "./GamePagination";
 
 export default {
   name: "GamesFavourite",
-  components: {GameSort},
+  components: {GamePagination, GameSort},
   data: function () {
     return {
-      activeFirst: true,
-      activeLast: false,
+
     }
   },
   methods: {
-    firstPage: function (event) {
-      this.gamesDb.page = 1;
-      this.activeFirst = true
-      this.activeLast = false
-    },
-    nextPage: function (event) {
-      this.activeFirst = false
-      this.activeLast = false
-
-      this.gamesDb.page++;
-
-      if (this.gamesDb.page === this.gamesDb.totalPages) {
-        this.activeLast= true
-      }
-    },
-    previousPage: function (event) {
-      this.activeFirst = false
-      this.activeLast = false
-
-      this.gamesDb.page--;
-
-      if (this.gamesDb.page === 1) {
-        this.activeFirst = true
-      }
-    },
-    lastPage: function (event) {
-      this.activeFirst = false
-      this.activeLast = true
-      this.gamesDb.page = this.gamesDb.totalPages
-    },
     loadGame: function (event) {
       this.$store.dispatch('loadGame', {
         id: event.currentTarget.getAttribute('data-id'),
         pgn: event.currentTarget.getAttribute('data-pgn')
       });
     },
-    addGameToFavourites: function(event) {
-      this.$store.dispatch('updateGame', {
+    addGameToFavourites: async function (event) {
+      await this.$store.dispatch('updateGame', {
         id: event.currentTarget.getAttribute('data-id'),
         flag: event.currentTarget.getAttribute('data-flag')
-      }).then(
-          favouriteGames.refresh(),
-          games.refresh()
-      );
+      });
+
+      favouriteGames.refresh(),
+      games.refresh()
     }
   },
   computed: {

@@ -52,7 +52,7 @@ class GameService
             ];
         }
 
-        return ['items' => $games, 'total' => count($games)];
+        return ['items' => $games, 'total' => $items->count()];
     }
 
     public function getFavouriteGamesInfoRange($page, $pageSize = 10, $whitePlayer, $blackPlayer, $result, $sort)
@@ -74,7 +74,7 @@ class GameService
             ];
         }
 
-        return ['items' => $games, 'total' => count($games)];
+        return ['items' => $games, 'total' => $items->count()];
     }
 
     public function getLastGames()

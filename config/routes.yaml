@@ -3,7 +3,7 @@ index:
     controller: App\Controller\HomepageController::index
 
 ajax_get_game_info:
-    path: /game
+    path: /get_game_info_modal
     controller: App\Controller\ApiController::getGameInfo
     options:
         expose: true

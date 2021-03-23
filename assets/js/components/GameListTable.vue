@@ -21,6 +21,16 @@
         <td>{{game.result}}</td>
         <td v-on:click.stop="">
           <span
+              v-on:click="showGameInfoModal(game.id)"
+              class="favIconSpan"
+              v-b-tooltip.hover
+              :data-id="game.id"
+              :title="'Show game info'"
+              style="margin-right: 5px;"
+          >
+            <i class="bi bi-info-circle icon"></i>
+          </span>
+          <span
               :class="{ 'span-favourite': game.favourite }"
               class="favIconSpan"
               v-on:click="addGameToFavourites"
@@ -28,19 +38,14 @@
               :data-id="game.id"
               :data-flag="game.favourite"
               :title="(game.favourite) ? 'Delete from favourites' : 'Add to favourites'"
-              >
-            <i class="bi bi-star-fill"></i>
+          >
+            <i class="bi bi-star-fill icon"></i>
           </span>
         </td>
       </tr>
     </template>
 
-    <ul class="pagination">
-      <li @click="firstPage" class="page-item" v-bind:class="{ active: activeFirst}"><a class="page-link" href="#">1</a></li>
-      <li v-if="gamesDb.page > 1" @click="previousPage" class="page-item"><a class="page-link" href="#">Previous</a></li>
-      <li v-if="gamesDb.page < gamesDb.totalPages" @click="nextPage" class="page-item"><a class="page-link" href="#">Next</a></li>
-      <li v-if="gamesDb.totalPages > 1" @click="lastPage" class="page-item" v-bind:class="{ active: activeLast}"><a class="page-link" href="#">{{ gamesDb.totalPages }}</a></li>
-    </ul>
+    <game-pagination v-bind:gamesDb="gamesDb"></game-pagination>
 
     </tbody>
   </table>
@@ -56,18 +61,21 @@
       <div class="spinner-grow text-success " role="status"></div>
     </div>
   </table>
+
+  <game-info-modal v-bind:gameId="selectedGameInfoId"></game-info-modal>
   </div>
 </template>
 
 <script>
-import axios from "axios";
 import {createInstance} from 'vuex-pagination'
 import {favouriteGames, games} from "../game";
 import GameSort from "./GameSort";
+import GamePagination from "./GamePagination";
+import GameInfoModal from "./GameInfoModal";
 
 export default {
   name: "GameListTable",
-  components: {GameSort},
+  components: {GameInfoModal, GamePagination, GameSort},
   data: function () {
     return {
       eloWhiteFromFilter: '',
@@ -77,58 +85,28 @@ export default {
       sortOption: 'name_asc',
       games: [],
       errors: [],
-      activeFirst: true,
-      activeLast: false,
-      title: ''
+      selectedGameInfoId: null
     }
   },
   methods: {
-    addGameToFavourites: function (event) {
-      this.$store.dispatch('updateGame', {
+    addGameToFavourites: async function (event) {
+      await this.$store.dispatch('updateGame', {
         id: event.currentTarget.getAttribute('data-id'),
         flag: event.currentTarget.getAttribute('data-flag')
-      }).then(
-          games.refresh(),
-          favouriteGames.refresh()
-      );
+      });
+
+      favouriteGames.refresh();
+      games.refresh();
+    },
+    showGameInfoModal: function(id) {
+      this.selectedGameInfoId = id;
+      this.$bvModal.show('bv-modal-example');
     },
     loadGame: function (event) {
       this.$store.dispatch('loadGame', {
           id: event.currentTarget.getAttribute('data-id'),
           pgn: event.currentTarget.getAttribute('data-pgn')
       });
-    },
-    firstPage: function (event) {
-      this.gamesDb.page = 1;
-      this.activeFirst = true
-      this.activeLast = false
-    },
-    nextPage: function (event) {
-      this.activeFirst = false
-      this.activeLast = false
-
-      //this.gamesDb.page++;
-      this.$store.commit('incrementPage');
-
-      if (this.gamesDb.page === this.gamesDb.totalPages) {
-        this.activeLast= true
-      }
-    },
-    previousPage: function (event) {
-      this.activeFirst = false
-      this.activeLast = false
-
-      //this.gamesDb.page--;
-      this.$store.commit('decrementPage');
-
-      if (this.gamesDb.page === 1) {
-        this.activeFirst = true
-      }
-    },
-    lastPage: function (event) {
-      this.activeFirst = false
-      this.activeLast = true
-      this.gamesDb.page = this.gamesDb.totalPages
     },
   },
   computed: {

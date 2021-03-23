@@ -226,7 +226,7 @@ const actions = {
             .catch(error => console.log(error))
             .finally();
     },
-    updateGame(state, payload) {
+    async updateGame(state, payload) {
         return axios.post(Routing.generate('ajax_update_game'), {
             id:payload.id,
             flag:payload.flag,
@@ -236,7 +236,7 @@ const actions = {
             })
             .catch(error => console.log(error))
             .finally();
-    }
+    },
 }
 
 export default {
